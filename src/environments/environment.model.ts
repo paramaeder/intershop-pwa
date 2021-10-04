@@ -105,6 +105,8 @@ export interface Environment {
       | Auth0Config;
   };
 
+  translateLoaderUrl?: string;
+
   // enable and configure data persistence for specific stores (compare, recently, tacton)
   dataRetention: DataRetentionPolicy;
 }

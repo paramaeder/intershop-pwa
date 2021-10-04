@@ -56,6 +56,7 @@ Make sure to use them as written in the table below.
 |                     | THEME                 | string               | Overrides the default theme                                                                  |
 |                     | MULTI_SITE_LOCALE_MAP | JSON \| false        | Used to map locales to [url modification parameters](../guides/multi-site-configurations.md) |
 |                     | DEPLOY_URL            | string               | Set a [Deploy URL][concept-deploy-url] (default `/`)                                         |
+|                     | TRANSLATE_LOADER_URL  | string               | Set an alternate source for loading translations                                             |
 | **Debug** :warning: | TRUST_ICM             | any                  | Use this if ICM is deployed with an insecure certificate                                     |
 |                     | LOGGING               | switch               | Enables extra log output                                                                     |
 | **Hybrid Approach** | SSR_HYBRID            | any                  | Enables running PWA and ICM in [Hybrid Mode][concept-hybrid]                                 |
