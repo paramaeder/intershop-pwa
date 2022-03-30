@@ -11,7 +11,6 @@ import {
   NgbPopoverModule,
 } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
-import { DeferLoadModule } from '@trademe/ng-defer-load';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { SwiperModule } from 'swiper/angular';
 
@@ -145,7 +144,6 @@ const importExportModules = [
   CdkTableModule,
   CommonModule,
   CompareExportsModule,
-  DeferLoadModule,
   DirectivesModule,
   FeatureToggleModule,
   FormlyAddressFormsModule,
