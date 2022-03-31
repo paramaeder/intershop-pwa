@@ -115,15 +115,15 @@ export class PreviewService {
    * Should only be called *once* during initialization.
    */
   private listenToApplication() {
-    const navigation$ = this.router.events.pipe(filter(e => e instanceof NavigationEnd));
+    const navigation$ = this.router.events.pipe(filter<NavigationEnd>(e => e instanceof NavigationEnd));
 
     const stable$ = this.appRef.isStable.pipe(debounceTime(10), distinctUntilChanged(), whenTruthy(), take(1));
 
     const navigationStable$ = navigation$.pipe(switchMapTo(stable$));
 
     // send `dv-pwanavigation` event for each route change
-    navigation$.pipe(withLatestFrom(this.store.pipe(select(getICMBaseURL)))).subscribe(([, icmBaseUrl]) => {
-      this.messageToHost({ type: 'dv-pwanavigation' }, icmBaseUrl);
+    navigation$.pipe(withLatestFrom(this.store.pipe(select(getICMBaseURL)))).subscribe(([e, icmBaseUrl]) => {
+      this.messageToHost({ type: 'dv-pwanavigation', payload: { url: e.url } }, icmBaseUrl);
     });
 
     // send `dv-pwastable` event when application is stable or loading of the content included finished
