@@ -20,7 +20,11 @@ export class PreviewInterceptor implements HttpInterceptor {
         take(1)
         // TODO: end listening for PreviewContextID if there is no such parameter at the first initialization
       )
-      .subscribe(value => sessionStorage.setItem('PreviewContextID', value));
+      .subscribe(value => {
+        if (!sessionStorage.getItem('PreviewContextID')) {
+          sessionStorage.setItem('PreviewContextID', value);
+        }
+      });
   }
 
   intercept(req: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
