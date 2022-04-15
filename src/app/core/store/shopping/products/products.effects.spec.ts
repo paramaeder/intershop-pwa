@@ -12,7 +12,6 @@ import { ProductPriceDetails } from 'ish-core/models/product-prices/product-pric
 import { Product, VariationProductMaster } from 'ish-core/models/product/product.model';
 import { ProductsService } from 'ish-core/services/products/products.service';
 import { CoreStoreModule } from 'ish-core/store/core/core-store.module';
-import { CustomerStoreModule } from 'ish-core/store/customer/customer-store.module';
 import { personalizationStatusDetermined } from 'ish-core/store/customer/user/user.actions';
 import { loadCategory } from 'ish-core/store/shopping/categories';
 import { setProductListingPageSize } from 'ish-core/store/shopping/product-listing';
@@ -66,7 +65,6 @@ describe('Products Effects', () => {
     TestBed.configureTestingModule({
       imports: [
         CoreStoreModule.forTesting(['router', 'serverConfig']),
-        CustomerStoreModule.forTesting('user'),
         RouterTestingModule.withRoutes([
           { path: 'category/:categoryUniqueId/product/:sku', children: [] },
           { path: 'product/:sku', children: [] },
