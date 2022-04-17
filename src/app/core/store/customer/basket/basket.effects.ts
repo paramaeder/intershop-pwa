@@ -32,6 +32,7 @@ import {
   loadBasketSuccess,
   loadBasketWithId,
   mergeBasketFail,
+  mergeBasketInProgress,
   mergeBasketSuccess,
   resetBasketErrors,
   setBasketAttribute,
@@ -261,7 +262,8 @@ export class BasketEffects {
                     .mergeBasket(sourceBasketId, sourceApiToken, newOrCurrentUserBasket.id)
                     .pipe(map(basket => mergeBasketSuccess({ basket })))
                 ),
-                mapErrorToAction(mergeBasketFail)
+                mapErrorToAction(mergeBasketFail),
+                startWith(mergeBasketInProgress())
               );
             } else if (baskets.length) {
               // no anonymous basket exists and user already has a basket -> load it
