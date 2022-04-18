@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Store, select } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { Observable, identity } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { getConfigurationState } from 'ish-core/store/core/configuration';
+import { ConfigurationType, getConfigurationState } from 'ish-core/store/core/configuration';
 import { mapToProperty } from 'ish-core/utils/operators';
 
 import { environment } from '../../../../environments/environment';
@@ -23,17 +23,30 @@ export class StatePropertiesService {
   getStateOrEnvOrDefault<T>(envKey: string, envPropKey: keyof Environment): Observable<T> {
     return this.store.pipe(
       select(getConfigurationState),
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any -- re-mapping type
-      mapToProperty(envPropKey as any),
+      mapToProperty(envPropKey as keyof ConfigurationType),
       map(value => {
-        if (value?.length) {
+        if (value !== undefined) {
           return value;
         } else if (SSR && process.env[envKey]) {
           return process.env[envKey];
         } else {
           return environment[envPropKey];
         }
-      })
+      }),
+      SSR
+        ? map(value => {
+            if (typeof value === 'string') {
+              if (value.trim().startsWith('{')) {
+                return JSON.parse(value);
+              } else if (value.split('\n').length > 1 && value.split('\n').some(line => /:\s*$/.test(line))) {
+                // import js-yaml with require so it doesn't turn up in the client bundle
+                // eslint-disable-next-line @typescript-eslint/no-var-requires
+                return require('js-yaml').load(value);
+              }
+            }
+            return value;
+          })
+        : identity
     );
   }
 }
